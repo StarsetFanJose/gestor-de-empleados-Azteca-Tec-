@@ -1,0 +1,27 @@
+# Archivos compilados
+*.class
+
+# Archivos de NetBeans
+/nbproject/private/
+/build/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Archivos de configuración local
+*.properties
+*.xml
+!pom.xml
+
+# Logs
+*.log 

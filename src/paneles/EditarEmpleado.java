@@ -1,0 +1,549 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package paneles;
+
+import ClasesUtilitarias.ArchivoUtilEmpleados;
+import java.awt.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+/**
+ *
+ * @author josea
+ */
+public class EditarEmpleado extends javax.swing.JPanel {
+
+    /**
+     * Creates new form EditarEmpleado
+     */
+    public EditarEmpleado() {
+        initComponents();
+        cargarIDs();
+    }
+    
+    private void cargarIDs() {
+        this.cboIDs.addItem("-- Selecciona un ID --");
+        List<String[]> datos = ArchivoUtilEmpleados.leerArchivo("empleados.txt");
+        
+        for (String[] fila : datos)
+            this.cboIDs.addItem(fila[0]);
+    }
+    
+    private void cargarDatos() {
+        if (this.cboIDs.getSelectedIndex() <= 0) {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar un ID primero para editar.", "ADVERTENCIA: ID vacio", 2);
+            configurraComponentes();
+            return;
+        }
+        
+        actualizarComponentes();
+        
+        String idSeleccionado = (String) this.cboIDs.getSelectedItem();
+        List<String[]> datos = ArchivoUtilEmpleados.leerArchivo("empleados.txt");
+        for (String[] fila : datos) {
+            if (fila[0].equals(idSeleccionado)) {
+                this.txtApellido.setText(fila[1]);
+                this.txtNombres.setText(fila[2]);
+                this.txtFechaNacimiento.setText(fila[3]);
+                this.txtFechaContrato.setText(fila[4]);
+                this.txtCurp.setText(fila[5]);
+                this.txtTiempoTrabajo.setText(fila[6]);
+                this.txtPago.setText(fila[7]);
+                this.cboArea.setSelectedItem(fila[9]);
+                this.cboPuesto.setSelectedItem(fila[10]);
+                this.cboEstatus.setSelectedItem(fila[11]);
+                break;
+            }
+        }
+    }
+    
+    private void actualizarEmpleado() {
+        String idSeleccionado = (String) this.cboIDs.getSelectedItem();
+        
+        if (idSeleccionado.equals("-- Selecciona un ID --")) {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar un ID para actualizar los datos.", "ADVERTENCIA: ID no Seleccionado", 2);
+            return;
+        }
+        
+        if (!validarFechas(this.txtFechaNacimiento.getText(), this.txtFechaContrato.getText())) {
+            return;
+        }
+        
+        List<String[]> datos = ArchivoUtilEmpleados.leerArchivo("empleados.txt");
+        for (String[] fila : datos) {
+            if (fila[0].equals(idSeleccionado)) {
+                fila[1] = this.txtApellido.getText();
+                fila[2] = this.txtNombres.getText();
+                fila[3] = this.txtFechaNacimiento.getText();
+                fila[4] = this.txtFechaContrato.getText();
+                fila[5] = this.txtCurp.getText();
+                fila[6] = this.txtTiempoTrabajo.getText();
+                fila[7] = this.txtPago.getText();
+                fila[8] = String.valueOf(Double.parseDouble(fila[6]) * Double.parseDouble(fila[7]));
+                fila[9] = (String) this.cboArea.getSelectedItem();
+                fila[10] = (String) this.cboPuesto.getSelectedItem();
+                fila[11] = (String) this.cboEstatus.getSelectedItem();
+                break;
+            }
+        }
+        
+        ArchivoUtilEmpleados.escribirArchivo("empleados.txt", datos);
+        JOptionPane.showMessageDialog(null, "Datos del Empleado actualizados correctamente.", "Exito", 1);
+    }
+    
+    private boolean validarFechas(String fechaNacimiento, String fechaContrato) {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        formatoFecha.setLenient(false);
+        
+        try {
+            formatoFecha.parse(fechaNacimiento);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "La fecha de nacimiento tiene un formato invalido. \n El formato debe ser dd/MM/yyyy.", "ADVERTENCIA: Formato de fecha invalido", 2);
+            this.txtFechaNacimiento.requestFocus();
+            return false;
+        }
+        
+        try {
+            formatoFecha.parse(fechaContrato);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "La fecha de Contrato tiene un formato invalido. \n El formato debe ser dd/MM/yyyy.", "ADVERTENCIA: Formato de fecha invalido", 2);
+            this.txtFechaContrato.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        cboIDs = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        txtFechaContrato = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtApellido = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtCurp = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtPago = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtNombres = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtFechaNacimiento = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtTiempoTrabajo = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        cboPuesto = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        cboEstatus = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        cboArea = new javax.swing.JComboBox<>();
+        btnActualizar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.setLayout(null);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Recursos/man_13579176.png"))); // NOI18N
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(20, 20, 138, 110);
+
+        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 3, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Editar Datos de Empleados");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(180, 50, 730, 50);
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 140));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(null);
+
+        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 22)); // NOI18N
+        jLabel3.setText("Selecciona un ID en el Siguiente Combo Box para editar los datos:");
+        jPanel2.add(jLabel3);
+        jLabel3.setBounds(17, 21, 750, 30);
+
+        cboIDs.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        cboIDs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboIDsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cboIDs);
+        cboIDs.setBounds(760, 20, 280, 40);
+
+        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel4.setText("Fecha de Contrato:");
+        jPanel2.add(jLabel4);
+        jLabel4.setBounds(770, 90, 170, 30);
+
+        txtFechaContrato.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jPanel2.add(txtFechaContrato);
+        txtFechaContrato.setBounds(920, 90, 100, 30);
+
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel5.setText("Estatus:");
+        jPanel2.add(jLabel5);
+        jLabel5.setBounds(800, 200, 70, 30);
+
+        txtApellido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jPanel2.add(txtApellido);
+        txtApellido.setBounds(80, 90, 150, 30);
+
+        jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel6.setText("Nombres:");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(240, 90, 80, 30);
+
+        txtCurp.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jPanel2.add(txtCurp);
+        txtCurp.setBounds(70, 150, 210, 30);
+
+        jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel7.setText("Fecha de Nacimiento:");
+        jPanel2.add(jLabel7);
+        jLabel7.setBounds(490, 90, 170, 30);
+
+        txtPago.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jPanel2.add(txtPago);
+        txtPago.setBounds(690, 150, 70, 30);
+
+        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel8.setText("Apellido:");
+        jPanel2.add(jLabel8);
+        jLabel8.setBounds(10, 90, 80, 30);
+
+        txtNombres.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jPanel2.add(txtNombres);
+        txtNombres.setBounds(320, 90, 150, 30);
+
+        jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel9.setText("CURP:");
+        jPanel2.add(jLabel9);
+        jLabel9.setBounds(10, 150, 80, 30);
+
+        txtFechaNacimiento.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jPanel2.add(txtFechaNacimiento);
+        txtFechaNacimiento.setBounds(650, 90, 100, 30);
+
+        jLabel10.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel10.setText("Tiempo de Trabajo (Semanas):");
+        jPanel2.add(jLabel10);
+        jLabel10.setBounds(290, 150, 230, 30);
+
+        txtTiempoTrabajo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jPanel2.add(txtTiempoTrabajo);
+        txtTiempoTrabajo.setBounds(510, 150, 70, 30);
+
+        jLabel11.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel11.setText("Pago Inicial:");
+        jPanel2.add(jLabel11);
+        jLabel11.setBounds(590, 150, 120, 30);
+
+        cboPuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        cboPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Selecciona un Puesto de Empleo --" }));
+        cboPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboPuestoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cboPuesto);
+        cboPuesto.setBounds(520, 200, 270, 30);
+
+        jLabel12.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel12.setText("Area de Empleo:");
+        jPanel2.add(jLabel12);
+        jLabel12.setBounds(0, 200, 130, 30);
+
+        cboEstatus.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        cboEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Selecciona un Estatus --", "-- Activo --", "-- Inactivo --", "-- En Capacitacion --" }));
+        jPanel2.add(cboEstatus);
+        cboEstatus.setBounds(880, 200, 200, 30);
+
+        jLabel13.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel13.setText("Puesto de Empleo:");
+        jPanel2.add(jLabel13);
+        jLabel13.setBounds(370, 200, 150, 30);
+
+        cboArea.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        cboArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Selecciona un Area de Empleo --", "-- Marketing --", "-- Desarrollador en software --", "-- Electronica --", "-- Limpieza --", "-- Seguridad --" }));
+        cboArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboAreaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cboArea);
+        cboArea.setBounds(120, 200, 240, 30);
+
+        btnActualizar.setBackground(new java.awt.Color(0, 0, 102));
+        btnActualizar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Recursos/systemsoftwareupdate_94333.png"))); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnActualizarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnActualizarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnActualizarMouseExited(evt);
+            }
+        });
+        jPanel2.add(btnActualizar);
+        btnActualizar.setBounds(120, 290, 320, 70);
+
+        btnLimpiar.setBackground(new java.awt.Color(0, 0, 102));
+        btnLimpiar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Recursos/broom_2376996.png"))); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseExited(evt);
+            }
+        });
+        jPanel2.add(btnLimpiar);
+        btnLimpiar.setBounds(460, 290, 390, 70);
+
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 1090, 530));
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cboIDsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboIDsActionPerformed
+        cargarDatos();
+    }//GEN-LAST:event_cboIDsActionPerformed
+
+    private void btnActualizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseEntered
+        this.btnActualizar.setBackground(Color.green);
+    }//GEN-LAST:event_btnActualizarMouseEntered
+
+    private void btnActualizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseExited
+        this.btnActualizar.setBackground(new Color(0, 0, 102));
+    }//GEN-LAST:event_btnActualizarMouseExited
+
+    private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
+        if (validarFormulario())
+            actualizarEmpleado();
+    }//GEN-LAST:event_btnActualizarMouseClicked
+
+    private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
+        this.btnLimpiar.setBackground(Color.red);
+    }//GEN-LAST:event_btnLimpiarMouseEntered
+
+    private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
+        this.btnLimpiar.setBackground(new Color(0, 0, 102));
+    }//GEN-LAST:event_btnLimpiarMouseExited
+
+    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
+        limpiar();
+    }//GEN-LAST:event_btnLimpiarMouseClicked
+
+    private void cboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAreaActionPerformed
+        this.cboPuesto.removeAllItems();
+        String seleccion = (String) this.cboArea.getSelectedItem();
+        
+        if ("-- Marketing --".equals(seleccion)) {
+            this.cboPuesto.setEnabled(true);
+            this.cboPuesto.addItem("-- Selecciona un Puesto de Empleo --");
+            this.cboPuesto.addItem("-- Diseño Grafico --");
+            this.cboPuesto.addItem("-- Estrategias Digitales --");
+            this.cboPuesto.addItem("-- Publicidad --");
+        } else if ("-- Desarrollador en software --".equals(seleccion)) {
+            this.cboPuesto.setEnabled(true);
+            this.cboPuesto.addItem("-- Selecciona un Puesto de Empleo --");
+            this.cboPuesto.addItem("-- Desarrollador Junior --");
+            this.cboPuesto.addItem("-- Desarrollador Senior --");
+            this.cboPuesto.addItem("-- Desarrollador Master --");
+        } else if ("-- Electronica --".equals(seleccion)) {
+            this.cboPuesto.setEnabled(true);
+            this.cboPuesto.addItem("-- Selecciona un Puesto de Empleo --");
+            this.cboPuesto.addItem("-- Tecnico en electronica --");
+            this.cboPuesto.addItem("-- Tecnico en Comunicaciones --");
+            this.cboPuesto.addItem("-- Ingeniero Electronico --");
+        } else if ("-- Limpieza --".equals(seleccion)) {
+            this.cboPuesto.setEnabled(true);
+            this.cboPuesto.addItem("-- Selecciona un Puesto de Empleo --");
+            this.cboPuesto.addItem("-- Limpieza en Oficinas --");
+            this.cboPuesto.addItem("-- Limpieza en Equipos Electronicos --");
+            this.cboPuesto.addItem("-- Jefe de Limpieza --");
+        } else if ("-- Seguridad --".equals(seleccion)) {
+            this.cboPuesto.setEnabled(true);
+            this.cboPuesto.addItem("-- Selecciona un Puesto de Empleo --");
+            this.cboPuesto.addItem("-- Guardia 12x12 --");
+            this.cboPuesto.addItem("-- Guardia 24x24 --");
+            this.cboPuesto.addItem("-- Ingeniero en Ciberseguridad --");
+        } else {
+            this.cboPuesto.setEnabled(false);
+            this.cboPuesto.addItem("-- Selecciona un Puesto de Empleo --");
+        }
+    }//GEN-LAST:event_cboAreaActionPerformed
+
+    private void cboPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPuestoActionPerformed
+        String seleccion = (String) this.cboPuesto.getSelectedItem();
+        
+        if ("-- Selecciona un Puesto de Empleo --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(0.0));
+        } else if ("-- Diseño Grafico --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(1000.50));
+        } else if ("-- Estrategias Digitales --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(2000.75));
+        } else if ("-- Publicidad --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(1500.25));
+        } else if ("-- Desarrollador Junior --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(2500.70));
+        } else if ("-- Desarrollador Senior --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(5000.10));
+        } else if ("-- Desarrollador Master --".equals(seleccion)) {
+             this.txtPago.setText(String.valueOf(10000.00));
+        } else if ("-- Tecnico en electronica --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(2300.50));
+        } else if ("-- Tecnico en Comunicaciones --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(3000.25));
+        } else if ("-- Ingeniero Electronico --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(5000.50));
+        } else if ("-- Limpieza en Oficinas --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(1000.25));
+        } else if ("-- Limpieza en Equipos Electronicos --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(1000.30));
+        } else if ("-- Jefe de Limpieza --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(1500.75));
+        }  else if ("-- Guardia 12x12 --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(3000.50)); 
+        } else if ("-- Guardia 24x24 --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(3000.55));
+        } else if ("-- Ingeniero en Ciberseguridad --".equals(seleccion)) {
+            this.txtPago.setText(String.valueOf(5000.50));
+        } else {
+            this.txtPago.setText("");
+        }
+    }//GEN-LAST:event_cboPuestoActionPerformed
+
+    private boolean validarTextfield(JTextField textField, String mensaje) {
+        if (textField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, mensaje);
+            textField.requestFocus();
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean validarComboBox(JComboBox<String> comboBox, String mensaje) {
+        if (comboBox.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, mensaje);
+            comboBox.requestFocus();
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean validarFormulario() {
+        if (!validarTextfield(this.txtApellido, "El campo de Apellido esta vacio.")) return false;
+        if (!validarTextfield(this.txtNombres, "El Campo de Nombres esta vacio.")) return false;
+        if (!validarTextfield(this.txtFechaNacimiento, "El campo de Fecha de Nacimiento esta vacio.")) return false;
+        if (!validarTextfield(this.txtFechaContrato, "El campo de Fecha de Contrato esta vacio.")) return false;
+        if (!validarTextfield(this.txtCurp, "El campo de CURP esta vacio.")) return false;
+        if (!validarTextfield(this.txtTiempoTrabajo, "El campo de Tiempo de Trabajo (Semanas) esta vacio.")) return false;
+        if (!validarTextfield(this.txtPago, "El campo de Pago Inicial esta vacio")) return false;
+        if (!validarComboBox(this.cboArea, "No has seleccionado un Area de Empleo.")) return false;
+        if (!validarComboBox(this.cboPuesto, "No has seleccionado un Puesto de Empleo")) return false;
+        if (!validarComboBox(this.cboEstatus, "No has seleccionado un Estatus.")) return false;
+        
+        return true;
+    }
+    
+    private void limpiar() {
+        this.txtApellido.setText(null);
+        this.txtNombres.setText(null);
+        this.txtFechaNacimiento.setText(null);
+        this.txtFechaContrato.setText(null);
+        this.txtCurp.setText(null);
+        this.txtTiempoTrabajo.setText(null);
+        this.txtPago.setText(null);
+        this.cboArea.setSelectedItem("-- Selecciona un Area de Empleo --");
+        this.cboPuesto.setSelectedItem("-- Selecciona un Puesto de Empleo --");
+        this.cboEstatus.setSelectedItem("-- Selecciona un Estatus --");
+    }
+    
+    private void configurraComponentes() {
+        this.txtApellido.setEnabled(false);
+        this.txtNombres.setEnabled(false);
+        this.txtFechaNacimiento.setEnabled(false);
+        this.txtFechaContrato.setEnabled(false);
+        this.txtCurp.setEnabled(false);
+        this.txtTiempoTrabajo.setEnabled(false);
+        this.txtPago.setEnabled(false);
+        this.cboArea.setEnabled(false);
+        this.cboPuesto.setEnabled(false);
+        this.cboEstatus.setEnabled(false);
+    }
+    
+    private void actualizarComponentes() {
+        this.txtApellido.setEnabled(true);
+        this.txtNombres.setEnabled(true);
+        this.txtFechaNacimiento.setEnabled(true);
+        this.txtFechaContrato.setEnabled(true);
+        this.txtCurp.setEnabled(true);
+        this.txtTiempoTrabajo.setEnabled(true);
+        this.txtPago.setEnabled(true);
+        this.cboArea.setEnabled(true);
+        this.cboEstatus.setEnabled(true);
+    }
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cboArea;
+    private javax.swing.JComboBox<String> cboEstatus;
+    private javax.swing.JComboBox<String> cboIDs;
+    private javax.swing.JComboBox<String> cboPuesto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtCurp;
+    private javax.swing.JTextField txtFechaContrato;
+    private javax.swing.JTextField txtFechaNacimiento;
+    private javax.swing.JTextField txtNombres;
+    private javax.swing.JTextField txtPago;
+    private javax.swing.JTextField txtTiempoTrabajo;
+    // End of variables declaration//GEN-END:variables
+}
